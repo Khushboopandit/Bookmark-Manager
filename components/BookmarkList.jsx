@@ -1,12 +1,13 @@
+"use client";
+
 import React from "react";
 import BookmarkCard from "./BookmarkCard";
+import { useBookmarks } from "../context/BookmarkContext";
 
 // This function renders a grid of bookmark cards
 export default function BookmarkList() {
-  const bookmarks = [
-    { id: 1, title: "Google", url: "https://google.com", tag: "search" },
-    { id: 2, title: "GitHub", url: "https://github.com", tag: "dev" },
-  ];
+
+  const {bookmarks} = useBookmarks();
 
   // If list is empty, return a message
   if (bookmarks.length === 0) {

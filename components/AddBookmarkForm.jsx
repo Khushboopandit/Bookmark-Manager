@@ -2,15 +2,17 @@
 "use client";
 
 import React, { useState } from "react";
+import { useBookmarks } from "../context/BookmarkContext";
 
 export default function AddBookmarkForm() {
   const [title, setTitle] = useState("");
   const [url, setUrl] = useState("");
   const [tag, setTag] = useState("");
   const [error, setError] = useState("");
+  const { addBookmark } = useBookmarks();
 
-  // This function handles the form submission, validates, and logs the values
-  function handleSubmit(e) {
+  // This function handles the form submission, validates, and sends data to the bookmark context
+  async function handleSubmit(e) {
     e.preventDefault();
 
     if (!title.trim() || !url.trim()) {
@@ -20,11 +22,15 @@ export default function AddBookmarkForm() {
 
     setError("");
 
-    console.log({
+    await addBookmark({
       title,
       url,
       tag,
     });
+
+    setTitle("");
+    setUrl("");
+    setTag("");
   }
 
   return (

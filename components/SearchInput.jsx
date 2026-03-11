@@ -13,9 +13,9 @@ export default function SearchInput() {
         placeholder="Type to search..."
         className="w-full rounded-md border border-yellow-300 px-3 py-2 text-sm text-slate-900 placeholder-slate-400 outline-none focus:border-yellow-500 focus:ring-2 focus:ring-yellow-100"
       />
-      <p className="text-xs mt-1 text-base text-yellow-700">
+      {/* <p className="text-xs mt-1 text-base text-yellow-700">
        Press Enter to search
-      </p>
+      </p> */}
       </div>
     </div>
   );

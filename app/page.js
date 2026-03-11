@@ -1,9 +1,14 @@
+"use client";
+
 import AddBookmarkForm from "../components/AddBookmarkForm";
 import SearchInput from "../components/SearchInput";
 import BookmarkList from "../components/BookmarkList";
+import { useBookmarks } from "../context/BookmarkContext";
 
 // This function renders the main page layout and bookmark list UI
 export default function Page() {
+  const {bookmarks} = useBookmarks();
+
   return (
     <div className="min-h-screen bg-yellow-50 py-10 px-4">
       <div className="mx-auto flex w-full max-w-5xl flex-col gap-6">
@@ -16,7 +21,7 @@ export default function Page() {
           </p>
         </header>
         <AddBookmarkForm />
-        <SearchInput />
+       {bookmarks?.length>0 && <SearchInput />}
         <BookmarkList />
       </div>
     </div>
