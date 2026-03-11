@@ -60,12 +60,7 @@ export default function BookmarkProvider({ children }) {
 
       const createdBookmark = await response.json();
 
-      setBookmarks((previous) => {
-        if (Array.isArray(previous)) {
-          return [...previous, createdBookmark];
-        }
-        return [createdBookmark];
-      });
+      setBookmarks([...bookmarks,createdBookmark]);
     } catch (addError) {
       setError(addError.message || "Something went wrong while adding a bookmark.");
     } finally {
