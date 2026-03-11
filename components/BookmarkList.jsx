@@ -9,7 +9,7 @@ export default function BookmarkList() {
 
   const {bookmarks} = useBookmarks();
 
-  // If list is empty, return a message
+  // If list is empty, return message
   if (bookmarks.length === 0) {
     return (
       <div className="w-full rounded-xl border border-dashed border-yellow-300 bg-yellow-50 p-6 text-center text-sm text-yellow-800">
@@ -22,7 +22,8 @@ export default function BookmarkList() {
     <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
       {bookmarks.map((bookmark) => (
         <BookmarkCard
-          key={bookmark.id}
+        key={bookmark.id + "_bookmark_card"}
+          bookmark_id={bookmark.id}
           title={bookmark.title}
           url={bookmark.url}
           tag={bookmark.tag}

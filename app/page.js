@@ -3,11 +3,12 @@
 import AddBookmarkForm from "../components/AddBookmarkForm";
 import SearchInput from "../components/SearchInput";
 import BookmarkList from "../components/BookmarkList";
+import SuccessModal from "../components/SuccessModal";
 import { useBookmarks } from "../context/BookmarkContext";
 
 // This function renders the main page layout and bookmark list UI
 export default function Page() {
-  const {bookmarks} = useBookmarks();
+  const { bookmarks, successMessage } = useBookmarks();
 
   return (
     <div className="min-h-screen bg-yellow-50 py-10 px-4">
@@ -17,13 +18,15 @@ export default function Page() {
             Bookmark Manager
           </h1>
           <p className="mt-1 text-sm text-yellow-800">
-            Simple UI preview using dummy data only.
+            Add your bookmarks and search them easily.
           </p>
         </header>
         <AddBookmarkForm />
-       {bookmarks?.length>0 && <SearchInput />}
+      {bookmarks?.length>0 && <SearchInput />}
         <BookmarkList />
       </div>
+
+      <SuccessModal open={!!successMessage} message={successMessage} />
     </div>
   );
 }

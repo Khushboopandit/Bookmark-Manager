@@ -12,6 +12,7 @@ export default function BookmarkProvider({ children }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [searchText, setSearchText] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
 
   // This function updates the search text that can be used to filter bookmarks in the UI
   function updateSearchText(newText) {
@@ -68,14 +69,50 @@ export default function BookmarkProvider({ children }) {
     }
   }
 
+  // This function deletes a bookmark by id using the API and removes it from the local list
+  async function deleteBookmark(id) {
+    setLoading(true);
+    setError(null);
+
+    try {
+      const response = await fetch(`/api/bookmarks/${id}`, {
+        method: "DELETE",
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to delete bookmark.");
+      }
+
+      setBookmarks(
+        (previous) => previous?.filter((bookmark) => bookmark.id !== id) || []
+      );
+
+      setSuccessMessage("Bookmark deleted successfully.");
+      setTimeout(() => {
+        setSuccessMessage("");
+      }, 2000);
+      return true;
+    } catch (deleteError) {
+      setError(
+        deleteError.message || "Something went wrong while deleting a bookmark."
+      );
+
+      return false;
+    } finally {
+      setLoading(false);
+    }
+  }
+
   const value = {
     bookmarks,
     loading,
     error,
+    successMessage,
     searchText,
     updateSearchText,
     fetchBookmarks,
     addBookmark,
+    deleteBookmark,
   };
 
   return (

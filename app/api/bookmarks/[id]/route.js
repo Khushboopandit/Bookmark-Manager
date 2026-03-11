@@ -4,7 +4,8 @@ import db from "../../../../lib/db";
 // This function handles DELETE requests to remove a bookmark by its id
 export async function DELETE(request, { params }) {
   try {
-    const rawId = params?.id;
+    // In newer Next.js versions, params is a Promise
+    const { id: rawId } = await params;
     const id = Number(rawId);
 
     if (!Number.isInteger(id) || id <= 0) {
@@ -41,7 +42,8 @@ export async function DELETE(request, { params }) {
 // This function handles PUT requests to update an existing bookmark by its id
 export async function PUT(request, { params }) {
   try {
-    const rawId = params?.id;
+    // In newer Next.js versions, params is a Promise
+    const { id: rawId } = await params;
     const id = Number(rawId);
 
     if (!Number.isInteger(id) || id <= 0) {
