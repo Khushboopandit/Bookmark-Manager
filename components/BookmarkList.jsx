@@ -7,13 +7,13 @@ import { useBookmarks } from "../context/BookmarkContext";
 // This function renders a grid of bookmark cards
 export default function BookmarkList() {
 
-  const {bookmarks,searchText} = useBookmarks();
+  const {bookmarks,searchText,activeTag} = useBookmarks();
 
   const filterBookmarks=useMemo(()=>{
     if(searchText.trim() === "" ) return bookmarks;
 
-    return bookmarks?.filter((item)=>item?.title?.toLowerCase().includes(searchText?.toLowerCase()))
-  },[searchText,bookmarks])
+    return bookmarks?.filter((item)=>item?.title?.toLowerCase().includes(searchText?.toLowerCase()) && (!activeTag==="All"?true:item?.tag===activeTag))
+  },[searchText,bookmarks,activeTag])
   // If list is empty, return message
   if (bookmarks.length === 0) {
     return (

@@ -39,10 +39,13 @@ export default function AddBookmarkForm() {
       className="mb-6 flex flex-col gap-4 rounded-xl border border-yellow-200 bg-white p-4 shadow-sm"
     >
       <div className="flex flex-col gap-1">
-        <label className="text-sm font-medium text-yellow-900">Title</label>
+        <label className="text-sm font-medium text-yellow-900 required-label">
+          Title
+        </label>
         <input
           type="text"
           value={title}
+          required={true}
           onChange={(e) => setTitle(e.target.value)}
           placeholder="Enter bookmark title"
           className="w-full rounded-md border border-yellow-300 px-3 py-2 text-sm text-slate-900 placeholder-slate-400 outline-none focus:border-yellow-500 focus:ring-2 focus:ring-yellow-100"
@@ -50,10 +53,13 @@ export default function AddBookmarkForm() {
       </div>
 
       <div className="flex flex-col gap-1">
-        <label className="text-sm font-medium text-yellow-900">URL</label>
+        <label className="text-sm font-medium text-yellow-900 required-label">
+          URL
+        </label>
         <input
           type="url"
           value={url}
+          required={true}
           onChange={(e) => setUrl(e.target.value)}
           placeholder="https://example.com"
           className="w-full rounded-md border border-yellow-300 px-3 py-2 text-sm text-slate-900 placeholder-slate-400 outline-none focus:border-yellow-500 focus:ring-2 focus:ring-yellow-100"

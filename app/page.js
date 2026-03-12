@@ -5,7 +5,7 @@ import SearchInput from "../components/SearchInput";
 import BookmarkList from "../components/BookmarkList";
 import SuccessModal from "../components/SuccessModal";
 import { useBookmarks } from "../context/BookmarkContext";
-
+import FilterTags from "../components/FilterTags";
 // This function renders the main page layout and bookmark list UI
 export default function Page() {
   const { bookmarks, successMessage } = useBookmarks();
@@ -23,6 +23,7 @@ export default function Page() {
         </header>
         <AddBookmarkForm />
       {bookmarks?.length>0 && <SearchInput />}
+      <FilterTags />
         <BookmarkList />
       </div>
 

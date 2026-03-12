@@ -13,6 +13,12 @@ export default function BookmarkProvider({ children }) {
   const [error, setError] = useState(null);
   const [searchText, setSearchText] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+  const [activeTag, setActiveTag] = useState("All");
+
+    // This function updates the search text that can be used to filter bookmarks in the UI
+    function updateActiveTag(tag) {
+        setActiveTag(tag);
+    }
 
   // This function updates the search text that can be used to filter bookmarks in the UI
   function updateSearchText(newText) {
@@ -113,6 +119,8 @@ export default function BookmarkProvider({ children }) {
     fetchBookmarks,
     addBookmark,
     deleteBookmark,
+    updateActiveTag,
+    activeTag
   };
 
   return (
