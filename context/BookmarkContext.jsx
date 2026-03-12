@@ -15,7 +15,7 @@ export default function BookmarkProvider({ children }) {
   const [successMessage, setSuccessMessage] = useState("");
   const [activeTag, setActiveTag] = useState("All");
 
-    // This function updates the search text that can be used to filter bookmarks in the UI
+    // This function updates the clicked tag
     function updateActiveTag(tag) {
         setActiveTag(tag);
     }

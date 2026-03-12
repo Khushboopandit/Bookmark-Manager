@@ -10,10 +10,11 @@ export default function BookmarkList() {
   const {bookmarks,searchText,activeTag} = useBookmarks();
 
   const filterBookmarks=useMemo(()=>{
-    if(searchText.trim() === "" ) return bookmarks;
+    if(searchText.trim() === "" && activeTag==="All" ) return bookmarks;
 
-    return bookmarks?.filter((item)=>item?.title?.toLowerCase().includes(searchText?.toLowerCase()) && (!activeTag==="All"?true:item?.tag===activeTag))
+    return bookmarks?.filter((item)=>(searchText.trim() === ""?true:item?.title?.toLowerCase().includes(searchText?.toLowerCase())) && (activeTag==="All"?true:item?.tag===activeTag))
   },[searchText,bookmarks,activeTag])
+  
   // If list is empty, return message
   if (bookmarks.length === 0) {
     return (

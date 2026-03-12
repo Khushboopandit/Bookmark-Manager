@@ -10,7 +10,7 @@ const {bookmarks,updateActiveTag,activeTag} = useBookmarks();
   
 
   const tags = useMemo(()=>{
-    return ["All",...new Set(bookmarks.map((bookmark)=>bookmark.tag).filter((item)=>item.tag))]
+    return ["All",...new Set(bookmarks.map((bookmark)=>bookmark.tag).filter((tag)=>tag))]
   },[bookmarks])
   return (
     <div className="flex flex-wrap gap-2">
