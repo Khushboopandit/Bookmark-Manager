@@ -9,6 +9,7 @@ A simple app to save, search, and filter bookmarks. Built with Next.js and SQLit
 - Search by title
 - Filter by tag (All + tags from your bookmarks)
 - Delete with a confirmation modal
+- Mark bookmarks as favorites
 
 ## Tech
 
