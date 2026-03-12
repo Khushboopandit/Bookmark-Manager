@@ -1,7 +1,11 @@
+"use client";
+
 import React from "react";
+import { useBookmarks } from "../context/BookmarkContext";
 
 // This function renders a simple search bar UI to filter bookmarks visually
 export default function SearchInput() {
+  const {searchText, updateSearchText} = useBookmarks()
   return (
     <div className="mb-4 flex flex-col gap-3 rounded-xl border border-yellow-200 bg-white p-4 shadow-sm">
       <h2 className="text-base font-semibold text-yellow-900">
@@ -9,6 +13,8 @@ export default function SearchInput() {
       </h2>
       <div>
       <input
+        value={searchText}
+        onChange={((e)=>updateSearchText(e.target.value))}
         type="text"
         placeholder="Type to search..."
         className="w-full rounded-md border border-yellow-300 px-3 py-2 text-sm text-slate-900 placeholder-slate-400 outline-none focus:border-yellow-500 focus:ring-2 focus:ring-yellow-100"

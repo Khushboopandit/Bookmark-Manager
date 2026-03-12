@@ -1,14 +1,19 @@
 "use client";
 
-import React from "react";
+import React, {useMemo} from "react";
 import BookmarkCard from "./BookmarkCard";
 import { useBookmarks } from "../context/BookmarkContext";
 
 // This function renders a grid of bookmark cards
 export default function BookmarkList() {
 
-  const {bookmarks} = useBookmarks();
+  const {bookmarks,searchText} = useBookmarks();
 
+  const filterBookmarks=useMemo(()=>{
+    if(searchText.trim() === "" ) return bookmarks;
+
+    return bookmarks?.filter((item)=>item?.title?.toLowerCase().includes(searchText?.toLowerCase()))
+  },[searchText,bookmarks])
   // If list is empty, return message
   if (bookmarks.length === 0) {
     return (
@@ -17,10 +22,9 @@ export default function BookmarkList() {
       </div>
     );
   }
-
   return (
     <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-      {bookmarks.map((bookmark) => (
+      {filterBookmarks.map((bookmark) => (
         <BookmarkCard
         key={bookmark.id + "_bookmark_card"}
           bookmark_id={bookmark.id}
