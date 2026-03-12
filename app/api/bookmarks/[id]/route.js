@@ -1,6 +1,41 @@
 import { NextResponse } from "next/server";
 import db from "../../../../lib/db";
 
+// GET /api/bookmarks/[id] – fetch a single bookmark (e.g. for edit form)
+export async function GET(request, { params }) {
+  try {
+    const { id: rawId } = await params;
+    const id = Number(rawId);
+
+    if (!Number.isInteger(id) || id <= 0) {
+      return NextResponse.json(
+        { message: "Invalid bookmark id." },
+        { status: 400 }
+      );
+    }
+
+    const query = db.prepare(
+      "SELECT id, title, url, tag FROM bookmarks WHERE id = ?"
+    );
+    const bookmark = query.get(id);
+
+    if (!bookmark) {
+      return NextResponse.json(
+        { message: "Bookmark not found." },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json(bookmark, { status: 200 });
+  } catch (error) {
+    console.error("Error fetching bookmark:", error);
+    return NextResponse.json(
+      { message: "Failed to fetch bookmark." },
+      { status: 500 }
+    );
+  }
+}
+
 // This function handles DELETE requests to remove a bookmark by its id
 export async function DELETE(request, { params }) {
   try {

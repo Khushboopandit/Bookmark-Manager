@@ -14,6 +14,7 @@ export default function BookmarkProvider({ children }) {
   const [searchText, setSearchText] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [activeTag, setActiveTag] = useState("All");
+  const [editingBookmark, setEditingBookmark] = useState(null);
 
     // This function updates the clicked tag
     function updateActiveTag(tag) {
@@ -109,6 +110,42 @@ export default function BookmarkProvider({ children }) {
     }
   }
 
+  // This function updates a bookmark by id using the API and updates the local list
+  async function updateBookmark(id, { title, url, tag }) {
+    setLoading(true);
+    setError(null);
+
+    try {
+      const response = await fetch(`/api/bookmarks/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ title, url, tag }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to update bookmark.");
+      }
+
+      const updatedBookmark = await response.json();
+
+      setBookmarks((previous) =>
+        previous?.map((item) => (item.id === id ? updatedBookmark : item)) ?? []
+      );
+
+      setSuccessMessage("Bookmark updated successfully.");
+      setTimeout(() => setSuccessMessage(""), 2000);
+      return true;
+    } catch (updateError) {
+      setError(
+        updateError.message || "Something went wrong while updating the bookmark."
+      );
+      return false;
+    } finally {
+      setLoading(false);
+    }
+  }
   const value = {
     bookmarks,
     loading,
@@ -119,8 +156,11 @@ export default function BookmarkProvider({ children }) {
     fetchBookmarks,
     addBookmark,
     deleteBookmark,
+    updateBookmark,
     updateActiveTag,
-    activeTag
+    activeTag,
+    editingBookmark,
+    setEditingBookmark,
   };
 
   return (

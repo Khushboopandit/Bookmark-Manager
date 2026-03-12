@@ -21,7 +21,7 @@ const {bookmarks,updateActiveTag,activeTag} = useBookmarks();
             key={tag}
             type="button"
             onClick={() => updateActiveTag(tag)}
-            className={`inline-flex items-center rounded-full px-5 py-2 text-sm font-medium transition ${
+            className={`cursor-pointer inline-flex items-center rounded-full px-5 py-2 text-sm font-medium transition ${
               isActive
                 ? "bg-yellow-500 text-white"
                 : "bg-yellow-100 text-yellow-800 hover:bg-yellow-200"

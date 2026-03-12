@@ -1,7 +1,7 @@
 // This directive makes this component a client component so it can use React hooks
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useBookmarks } from "../context/BookmarkContext";
 
 export default function AddBookmarkForm() {
@@ -9,9 +9,28 @@ export default function AddBookmarkForm() {
   const [url, setUrl] = useState("");
   const [tag, setTag] = useState("");
   const [error, setError] = useState("");
-  const { addBookmark } = useBookmarks();
+  const {
+    addBookmark,
+    updateBookmark,
+    editingBookmark,
+    setEditingBookmark,
+  } = useBookmarks();
 
-  // This function handles the form submission, validates, and sends data to the bookmark context
+  // Prefill form when editing a bookmark
+  useEffect(() => {
+    if (editingBookmark) {
+      setTitle(editingBookmark.title ?? "");
+      setUrl(editingBookmark.url ?? "");
+      setTag(editingBookmark.tag ?? "");
+    } else {
+      setTitle("");
+      setUrl("");
+      setTag("");
+    }
+  }, [editingBookmark]);
+
+  const isEditing = !!editingBookmark;
+
   async function handleSubmit(e) {
     e.preventDefault();
 
@@ -22,15 +41,28 @@ export default function AddBookmarkForm() {
 
     setError("");
 
-    await addBookmark({
-      title,
-      url,
-      tag,
-    });
+    if (isEditing) {
+      const success = await updateBookmark(editingBookmark.id, {
+        title: title.trim(),
+        url: url.trim(),
+        tag: tag.trim() || null,
+      });
+      if (success) setEditingBookmark(null);
+    } else {
+      await addBookmark({
+        title: title.trim(),
+        url: url.trim(),
+        tag: tag.trim() || null,
+      });
+      setTitle("");
+      setUrl("");
+      setTag("");
+    }
+  }
 
-    setTitle("");
-    setUrl("");
-    setTag("");
+  function handleCancelEdit() {
+    setEditingBookmark(null);
+    setError("");
   }
 
   return (
@@ -81,12 +113,23 @@ export default function AddBookmarkForm() {
         <p className="text-sm font-medium text-red-600">{error}</p>
       )}
 
-      <button
-        type="submit"
-        className="mt-2 inline-flex items-center justify-center rounded-lg bg-yellow-500 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-yellow-600 active:bg-yellow-700"
-      >
-        Add Bookmark
-      </button>
+      <div className="mt-2 flex gap-2">
+        <button
+          type="submit"
+          className="cursor-pointer inline-flex items-center justify-center rounded-lg bg-yellow-500 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-yellow-600 active:bg-yellow-700"
+        >
+          {isEditing ? "Update Bookmark" : "Add Bookmark"}
+        </button>
+        {isEditing && (
+          <button
+            type="button"
+            onClick={handleCancelEdit}
+            className="cursor-pointer inline-flex items-center justify-center rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50"
+          >
+            Cancel
+          </button>
+        )}
+      </div>
     </form>
   );
 }
